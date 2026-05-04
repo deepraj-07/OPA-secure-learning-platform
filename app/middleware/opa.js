@@ -6,9 +6,13 @@ const checkOPA = async (req, res, next) => {
   }
 
   try {
-    const response = await axios.post('http://localhost:8181/v1/data/auth/allow', {
-      input: req.body
-    });
+    // Health check before policy call
+    await axios.get('http://localhost:8181/health');
+
+    const response = await axios.post(
+      'http://localhost:8181/v1/data/auth/allow',
+      { input: req.body }
+    );
 
     if (response.data.result === true) {
       next();

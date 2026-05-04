@@ -6,6 +6,10 @@ A production-ready secure learning platform that demonstrates Open Policy Agent 
 
 The OPA Secure Learning Platform enforces role-based access control (RBAC) with advanced policy rules for course management. It supports three primary roles—Instructor, Student, and Guest—each with specific permissions for viewing, creating, updating, and deleting courses. Policies are defined in Rego and evaluated by OPA, providing a flexible and maintainable authorization layer.
 
+## Architecture
+
+Client → Express API → OPA Policy Engine → Decision (Allow/Deny)
+
 ## Tech Stack
 
 - **Node.js**: Runtime environment for the Express server
