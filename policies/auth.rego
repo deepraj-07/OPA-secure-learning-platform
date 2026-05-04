@@ -2,7 +2,6 @@ package auth
 
 default allow = false
 
-# Instructor
 allow {
     input.role == "instructor"
     input.action == "create"
@@ -21,14 +20,12 @@ allow {
     not input.published
 }
 
-# Student
 allow {
     input.role == "student"
     input.action == "view"
     input.enrolled == true
 }
 
-# Guest
 allow {
     input.role == "guest"
     input.action == "view"
