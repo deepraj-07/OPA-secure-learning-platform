@@ -1,0 +1,35 @@
+name: OPA CI Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  validate-policy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install OPA
+        run: |
+          curl -L -o opa https://openpolicyagent.org/downloads/latest/opa_linux_amd64
+          chmod +x opa
+
+      - name: Create input.json for policy validation
+        run: |
+          cat > input.json << 'EOF'
+          {
+            "course_price": 100,
+            "isPublished": true,
+            "content_missing": false,
+            "env": "prod"
+          }
+          EOF
+
+      - name: Run OPA policy evaluation
+        run: ./opa eval --input input.json --data policies/ci.rego "data.cicd.deny"
+
+      - name: Policy check passed
+        run: echo "Policy check passed"

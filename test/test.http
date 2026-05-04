@@ -1,0 +1,58 @@
+### Test 1: Student viewing unenrolled course (should deny)
+POST http://localhost:3000/course-access
+Content-Type: application/json
+
+{
+  "role": "student",
+  "action": "view",
+  "enrolled": false
+}
+
+###
+
+### Test 2: Instructor updating course as owner (should grant)
+POST http://localhost:3000/course-access
+Content-Type: application/json
+
+{
+  "role": "instructor",
+  "action": "update",
+  "owner": true
+}
+
+###
+
+### Test 3: Instructor updating course as non-owner (should deny)
+POST http://localhost:3000/course-access
+Content-Type: application/json
+
+{
+  "role": "instructor",
+  "action": "update",
+  "owner": false
+}
+
+###
+
+### Test 4: Guest viewing non-free course (should deny)
+POST http://localhost:3000/course-access
+Content-Type: application/json
+
+{
+  "role": "guest",
+  "action": "view",
+  "free": false
+}
+
+###
+
+### Test 5: Instructor deleting published course as owner (should deny)
+POST http://localhost:3000/course-access
+Content-Type: application/json
+
+{
+  "role": "instructor",
+  "action": "delete",
+  "owner": true,
+  "published": true
+}

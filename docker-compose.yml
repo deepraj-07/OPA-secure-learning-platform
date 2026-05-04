@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  opa:
+    image: openpolicyagent/opa:latest
+    ports:
+      - "8181:8181"
+    volumes:
+      - ./policies:/policies
+    command: run -s -l 0.0.0.0:8181 /policies
+    networks:
+      - opa-network
+
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    depends_on:
+      - opa
+    environment:
+      - OPA_URL=http://opa:8181
+    networks:
+      - opa-network
+
+networks:
+  opa-network:
+    driver: bridge
