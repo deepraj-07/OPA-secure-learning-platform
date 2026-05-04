@@ -39,3 +39,16 @@ jobs:
           echo "Testing authorization policies..."
           ./opa test policies/ -v || true
           echo "✓ Auth policy tests completed"
+
+  sonar-analysis:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
